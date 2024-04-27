@@ -48,4 +48,6 @@ COPY cioban.sh /usr/local/bin/cioban.sh
 
 EXPOSE 9308
 
+RUN apk add --no-cache tzdata
+
 ENTRYPOINT ["/usr/local/bin/cioban.sh"]
