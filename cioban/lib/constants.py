@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """ Constants declarations """
 
-VERSION = None
-BUILD = None
+VERSION = '0.1'
+BUILD = 'Custom'
 
 # Messages
 

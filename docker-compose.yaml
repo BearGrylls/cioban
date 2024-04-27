@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  cioban:
+    image: ghcr.io/beargrylls/cioban
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - ./config.json:/root/.docker/config.json:ro
+    deploy:
+      labels:
+        ai.ix.auto-update: 'true' 
+    environment:
+      SCHEDULE_TIME: 0 2 * * *
+      FILTER_SERVICES: 'label=ai.ix.auto-update=true'
+      LOGLEVEL: INFO

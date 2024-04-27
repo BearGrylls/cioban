@@ -221,11 +221,20 @@ class Cioban():
 
         # first call to get the full list
         # this will allow us to set a metric `service_info`
+        log.debug("Listing all services...")
         for service in self.docker.services.list():
+            log.debug(f"  | {service.name}")
             image = service.attrs['Spec']['TaskTemplate']['ContainerSpec']['Image'].split('@sha256:')
-            prometheus.PROM_SVC_INFO.labels(service.name,service.id,service.short_id,image[0],image[1]).set(1)
-
+            if len(image) > 1:
+                prometheus.PROM_SVC_INFO.labels(service.name,service.id,service.short_id,image[0],image[1]).set(1)
+        
+        log.debug(f"Applying filters: {self.settings['filter_services']}")
         services = self.docker.services.list(filters=self.settings['filter_services'])
+        log.debug("Listing filtered services...")
+        for service in services:
+            log.debug(f"  | {service.name}")
+                        
+        log.debug(f"Applying blacklist...")
         for blacklist_service in self.settings['blacklist_services']:
             for service in services:
                 if service.name == blacklist_service:
